@@ -25,8 +25,19 @@
         
         <button type="submit">新增</button>
     </form>
-    
-    <!-- 顯示記帳資料 -->
+
+    <!-- 日期查詢表單 -->
+    <form action="index.php" method="get">
+        <label>開始日期：</label>
+        <input type="date" name="start_date" required>
+        
+        <label>結束日期：</label>
+        <input type="date" name="end_date" required>
+        
+        <button type="submit">查詢</button>
+    </form>
+
+    <!-- 顯示查詢或所有記帳資料 -->
     <table>
         <tr>
             <th>日期</th>
@@ -42,8 +53,14 @@
             die("連接失敗：" . $conn->connect_error);
         }
 
-        // 查詢所有記帳資料
+        // 設置查詢條件
         $sql = "SELECT * FROM expenses";
+        if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
+            $start_date = $_GET['start_date'];
+            $end_date = $_GET['end_date'];
+            $sql .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+        }
+
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -60,7 +77,7 @@
                 echo "</tr>";
             }
         } else {
-            echo "<tr><td colspan='5'>目前沒有記帳資料</td></tr>";
+            echo "<tr><td colspan='5'>沒有符合條件的記帳資料</td></tr>";
         }
         $conn->close();
         ?>
