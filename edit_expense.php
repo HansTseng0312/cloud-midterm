@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "expense_tracker");
+$conn = new mysqli("a11111123-midterm.c5sscmgou5km.us-east-1.rds.amazonaws.com", "admin", "06010312", "expense_tracker");
 if ($conn->connect_error) {
     die("連接失敗：" . $conn->connect_error);
 }
